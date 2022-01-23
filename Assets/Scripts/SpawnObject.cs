@@ -8,7 +8,7 @@ namespace TestDankolab.Spawner
     [RequireComponent(typeof(RectTransform))]
     public class SpawnObject : MonoBehaviour
     {
-        public static SpawnObject inst; //? Переделать под интерфейс?
+        public static SpawnObject inst;
 
         [SerializeField]
         private GameObject[] prefabGameCell;
@@ -41,9 +41,6 @@ namespace TestDankolab.Spawner
             ClearField();
             gridLayoutGroup.enabled = true;
             var pole = width * height;
-
-            //Debug.Log("Ширина: " + width + "Высота: " + height);
-            //Debug.Log("Cells Summ: " + pole);
 
             gridLayoutGroup.cellSize = new Vector2(rectTransform.rect.width / height, rectTransform.rect.height / width);
             sizeCell = gridLayoutGroup.cellSize;

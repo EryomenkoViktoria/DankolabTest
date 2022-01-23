@@ -7,7 +7,7 @@ using TestDankolab.Audio;
 
 namespace TestDankolab.UI
 {
-    public class Spawner : MonoBehaviour
+    public class CreatedDataGame : MonoBehaviour
     {
         [SerializeField]
         private TMP_InputField widthGrid, heightGrid, colorsGrid;
@@ -53,7 +53,7 @@ namespace TestDankolab.UI
             if (string.IsNullOrEmpty(widthGrid.text) && string.IsNullOrEmpty(heightGrid.text) && string.IsNullOrEmpty(colorsGrid.text))
                 return;
 
-            ConvertNewData();        
+            ConvertNewData();
         }
 
         private void ConvertNewData()

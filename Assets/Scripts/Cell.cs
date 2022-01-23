@@ -36,13 +36,19 @@ namespace TestDankolab.GameObjectCell
 
         private float rayDistance = 0.1f;
 
-        private bool clickThisCell, checkDestroy;
+        public bool clickThisCell, checkDestroy;
 
-        internal void RayCastCheck()
+        public void NotFoundCellCount()
+        {
+            clickThisCell = false;
+        }
+
+        internal async void RayCastCheck()
         {
             if (!clickThisCell)
             {
                 AudioGame.inst?.ClickButton();
+                CheckCells.inst.indexCell++;
 
                 RaycastHit2D hitUp = Physics2D.Raycast(rayUp.position, rayUp.up, rayDistance);
                 if (hitUp)
@@ -52,9 +58,10 @@ namespace TestDankolab.GameObjectCell
                         if (hitUp.collider.gameObject.GetComponent<Cell>())
                         {
                             clickThisCell = true;
+
                             var gameCell = hitUp.collider.gameObject;
+                            CheckCells.inst.cells.Add(gameObject.GetComponent<Cell>());
                             gameCell.GetComponent<Cell>().RayCastCheck();
-                            DestroyCell();
                         }
                     }
                 }
@@ -67,9 +74,10 @@ namespace TestDankolab.GameObjectCell
                         if (hitDown.collider.gameObject.GetComponent<Cell>())
                         {
                             clickThisCell = true;
+
                             var gameCell = hitDown.collider.gameObject;
+                            CheckCells.inst.cells.Add(gameObject.GetComponent<Cell>());
                             gameCell.GetComponent<Cell>().RayCastCheck();
-                            DestroyCell();
                         }
                     }
                 }
@@ -82,9 +90,10 @@ namespace TestDankolab.GameObjectCell
                         if (hitRight.collider.gameObject.GetComponent<Cell>())
                         {
                             clickThisCell = true;
+
                             var gameCell = hitRight.collider.gameObject;
+                            CheckCells.inst.cells.Add(gameObject.GetComponent<Cell>());
                             gameCell.GetComponent<Cell>().RayCastCheck();
-                            DestroyCell();
                         }
                     }
                 }
@@ -97,16 +106,20 @@ namespace TestDankolab.GameObjectCell
                         if (hitLeft.collider.gameObject.GetComponent<Cell>())
                         {
                             clickThisCell = true;
+
                             var gameCell = hitLeft.collider.gameObject;
+                            CheckCells.inst.cells.Add(gameObject.GetComponent<Cell>());
                             gameCell.GetComponent<Cell>().RayCastCheck();
-                            DestroyCell();
                         }
                     }
                 }
+
+                await Task.Delay(200);
+                CheckCells.inst?.DestroyCells();
             }
         }
 
-        private async void DestroyCell()
+        public async void DestroyCell()
         {
             if (!checkDestroy)
             {
