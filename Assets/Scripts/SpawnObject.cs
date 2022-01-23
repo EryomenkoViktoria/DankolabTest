@@ -17,6 +17,8 @@ namespace TestDankolab.Spawner
 
         private RectTransform rectTransform;
 
+        private int[] colorRandom;
+
         private void Awake()
         {
             inst = this;
@@ -30,7 +32,7 @@ namespace TestDankolab.Spawner
 
         private Vector2 sizeCell;
 
-        public Vector2 SizeCell
+        internal Vector2 SizeCell
         {
             get { return sizeCell; }
             set { sizeCell = value; }
@@ -39,21 +41,50 @@ namespace TestDankolab.Spawner
         internal void NewGame(int width, int height, int color)
         {
             ClearField();
+
             gridLayoutGroup.enabled = true;
             var pole = width * height;
 
             gridLayoutGroup.cellSize = new Vector2(rectTransform.rect.width / height, rectTransform.rect.height / width);
             sizeCell = gridLayoutGroup.cellSize;
 
+            SotrColor(color);
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    GameObject inputField = Instantiate(prefabGameCell[Random.Range(0, color)]);
+                    GameObject inputField = Instantiate(prefabGameCell[colorRandom[Random.Range(0,colorRandom.Length)]]);
                     inputField.transform.SetParent(gameObject.transform, false);
                 }
             }
+
             GridOff();
+        }
+
+        private void SotrColor(int color)
+        {  
+            colorRandom = new int[color];
+
+            int y = 0;
+
+            for (int i=0; i< color; i++)
+            {
+                colorRandom[i] = Random.Range(0, prefabGameCell.Length);
+                y = colorRandom[i];
+
+                for (int j = 0; j < i; j++)
+                {
+                    while (colorRandom[i] == colorRandom[j])
+                    { 
+                        colorRandom[i] = Random.Range(0, prefabGameCell.Length);
+                        j = 0;
+                        y = colorRandom[i];
+                    }
+
+                    y = colorRandom[i];
+                }
+            }
         }
 
         private async void GridOff()

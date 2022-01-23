@@ -153,8 +153,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 495413048}
-  - {fileID: 1206004852}
   - {fileID: 1478772543}
+  - {fileID: 1206004852}
   m_Father: {fileID: 1216302199}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1579,7 +1579,7 @@ RectTransform:
   m_Children:
   - {fileID: 74220995}
   m_Father: {fileID: 64599499}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2252,7 +2252,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 64599499}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2363,7 +2363,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1400, y: 100}
+  m_Size: {x: 4000, y: 100}
   m_EdgeRadius: 0
 --- !u!1 &1509298280
 GameObject:
@@ -2787,7 +2787,7 @@ GameObject:
   - component: {fileID: 1549710145}
   - component: {fileID: 1549710147}
   m_Layer: 0
-  m_Name: GameFieldSpawner
+  m_Name: GameFieldControler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2837,7 +2837,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff2d207ce5455ea4d94adeedce406cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cells: []
 --- !u!1 &1595059260
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using TestDankolab.GameObjectCell;
 using UnityEngine;
 
-namespace TestDankolab.GameObjectCell
+namespace TestDankolab.CheckerCells
 {
     public class CheckCells : MonoBehaviour
     {
@@ -12,11 +13,11 @@ namespace TestDankolab.GameObjectCell
             inst = this;
         }
 
-        public List<Cell> cells = new List<Cell>();
+        internal List<Cell> cells = new List<Cell>();
 
-        public int indexCell { get; set; }
+        internal int indexCell { get; set; }
 
-        public void DestroyCells()
+        internal void DestroyCells()
         {
             if (indexCell >= 3)
             {

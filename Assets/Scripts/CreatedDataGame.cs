@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using TestDankolab.Spawner;
 using TestDankolab.Audio;
+using System.Threading.Tasks;
 
 namespace TestDankolab.UI
 {
@@ -48,12 +49,16 @@ namespace TestDankolab.UI
             clousedErrorDataPanel.onClick.AddListener(ClousedErrorDataPanel);
         }
 
-        private void CreateNewDataGame()
+        private async void CreateNewDataGame()
         {
             if (string.IsNullOrEmpty(widthGrid.text) && string.IsNullOrEmpty(heightGrid.text) && string.IsNullOrEmpty(colorsGrid.text))
                 return;
 
             ConvertNewData();
+
+            startGameButton.interactable = false;
+            await Task.Delay(250);
+            startGameButton.interactable = true;
         }
 
         private void ConvertNewData()

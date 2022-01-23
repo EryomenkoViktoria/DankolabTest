@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using TestDankolab.Audio;
+using TestDankolab.CheckerCells;
 using TestDankolab.Spawner;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +18,14 @@ namespace TestDankolab.GameObjectCell
         [SerializeField]
         private Transform rayUp, rayDown, rayLeft, rayRight;
 
+        private int negativeVector = -1;
+        private int positiveVector = 1;
+
         private string nameCell;
+
+        private float rayDistance = 0.1f;
+
+        private bool clickThisCell, checkDestroy;
 
         private void Start()
         {
@@ -31,14 +39,10 @@ namespace TestDankolab.GameObjectCell
 
         private void SetNewSizeCellCollider()
         {
-            boxCollider2D.size = SpawnObject.inst.SizeCell * 0.97f;
+            boxCollider2D.size = SpawnObject.inst.SizeCell * 0.96f;
         }
 
-        private float rayDistance = 0.1f;
-
-        public bool clickThisCell, checkDestroy;
-
-        public void NotFoundCellCount()
+        internal void NotFoundCellCount()
         {
             clickThisCell = false;
         }
@@ -50,76 +54,36 @@ namespace TestDankolab.GameObjectCell
                 AudioGame.inst?.ClickButton();
                 CheckCells.inst.indexCell++;
 
-                RaycastHit2D hitUp = Physics2D.Raycast(rayUp.position, rayUp.up, rayDistance);
-                if (hitUp)
-                {
-                    if (nameCell == hitUp.collider.name)
-                    {
-                        if (hitUp.collider.gameObject.GetComponent<Cell>())
-                        {
-                            clickThisCell = true;
-
-                            var gameCell = hitUp.collider.gameObject;
-                            CheckCells.inst.cells.Add(gameObject.GetComponent<Cell>());
-                            gameCell.GetComponent<Cell>().RayCastCheck();
-                        }
-                    }
-                }
-
-                RaycastHit2D hitDown = Physics2D.Raycast(rayDown.position, -rayDown.up, rayDistance);
-                if (hitDown)
-                {
-                    if (nameCell == hitDown.collider.name)
-                    {
-                        if (hitDown.collider.gameObject.GetComponent<Cell>())
-                        {
-                            clickThisCell = true;
-
-                            var gameCell = hitDown.collider.gameObject;
-                            CheckCells.inst.cells.Add(gameObject.GetComponent<Cell>());
-                            gameCell.GetComponent<Cell>().RayCastCheck();
-                        }
-                    }
-                }
-
-                RaycastHit2D hitRight = Physics2D.Raycast(rayRight.position, rayRight.right, rayDistance);
-                if (hitRight)
-                {
-                    if (nameCell == hitRight.collider.name)
-                    {
-                        if (hitRight.collider.gameObject.GetComponent<Cell>())
-                        {
-                            clickThisCell = true;
-
-                            var gameCell = hitRight.collider.gameObject;
-                            CheckCells.inst.cells.Add(gameObject.GetComponent<Cell>());
-                            gameCell.GetComponent<Cell>().RayCastCheck();
-                        }
-                    }
-                }
-
-                RaycastHit2D hitLeft = Physics2D.Raycast(rayLeft.position, -rayLeft.right, rayDistance);
-                if (hitLeft)
-                {
-                    if (nameCell == hitLeft.collider.name)
-                    {
-                        if (hitLeft.collider.gameObject.GetComponent<Cell>())
-                        {
-                            clickThisCell = true;
-
-                            var gameCell = hitLeft.collider.gameObject;
-                            CheckCells.inst.cells.Add(gameObject.GetComponent<Cell>());
-                            gameCell.GetComponent<Cell>().RayCastCheck();
-                        }
-                    }
-                }
+                Raycast(rayUp, positiveVector);
+                Raycast(rayDown, negativeVector);
+                Raycast(rayRight, positiveVector);
+                Raycast(rayLeft,negativeVector) ;
 
                 await Task.Delay(200);
                 CheckCells.inst?.DestroyCells();
             }
         }
 
-        public async void DestroyCell()
+        private void Raycast(Transform directionRay, int direction)
+        {
+            RaycastHit2D directionHit = Physics2D.Raycast(directionRay.position, direction*directionRay.right, rayDistance);
+            if (directionHit)
+            {
+                if (nameCell == directionHit.collider.name)
+                {
+                    if (directionHit.collider.gameObject.GetComponent<Cell>())
+                    {
+                        clickThisCell = true;
+
+                        var gameCell = directionHit.collider.gameObject;
+                        CheckCells.inst.cells.Add(gameObject.GetComponent<Cell>());
+                        gameCell.GetComponent<Cell>().RayCastCheck();
+                    }
+                }
+            }
+        }
+
+        internal async void DestroyCell()
         {
             if (!checkDestroy)
             {
